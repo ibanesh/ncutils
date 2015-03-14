@@ -1,55 +1,24 @@
-#
-#  There exist several targets which are by default empty and which can be 
-#  used for execution of your targets. These targets are usually executed 
-#  before and after some main targets. They are: 
-#
-#     .build-pre:              called before 'build' target
-#     .build-post:             called after 'build' target
-#     .clean-pre:              called before 'clean' target
-#     .clean-post:             called after 'clean' target
-#     .clobber-pre:            called before 'clobber' target
-#     .clobber-post:           called after 'clobber' target
-#     .all-pre:                called before 'all' target
-#     .all-post:               called after 'all' target
-#     .help-pre:               called before 'help' target
-#     .help-post:              called after 'help' target
-#
-#  Targets beginning with '.' are not intended to be called on their own.
-#
-#  Main targets can be executed directly, and they are:
-#  
-#     build                    build a specific configuration
-#     clean                    remove built files from a configuration
-#     clobber                  remove all built files
-#     all                      build all configurations
-#     help                     print help mesage
-#  
-#  Targets .build-impl, .clean-impl, .clobber-impl, .all-impl, and
-#  .help-impl are implemented in nbproject/makefile-impl.mk.
-#
-#  Available make variables:
-#
-#     CND_BASEDIR                base directory for relative paths
-#     CND_DISTDIR                default top distribution directory (build artifacts)
-#     CND_BUILDDIR               default top build directory (object files, ...)
-#     CONF                       name of current configuration
-#     CND_PLATFORM_${CONF}       platform name (current configuration)
-#     CND_ARTIFACT_DIR_${CONF}   directory of build artifact (current configuration)
-#     CND_ARTIFACT_NAME_${CONF}  name of build artifact (current configuration)
-#     CND_ARTIFACT_PATH_${CONF}  path to build artifact (current configuration)
-#     CND_PACKAGE_DIR_${CONF}    directory of package (current configuration)
-#     CND_PACKAGE_NAME_${CONF}   name of package (current configuration)
-#     CND_PACKAGE_PATH_${CONF}   path to package (current configuration)
-#
-# NOCDDL
-
-
-# Environment 
+# Environment
 MKDIR=mkdir
 CP=cp
+GREP=grep
+NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
+CC=gcc
+CCC=g++
+CXX=g++
+FC=gfortran
+AS=as
 
+# Macros
+CND_PLATFORM=GNU-Linux-x86
+CND_DLIB_EXT=so
+CND_CONF=Coverage
+CND_DISTDIR=dist
+CND_BUILDDIR=build
+
+# Include project Makefile
 
 # build
 build: .build-post
@@ -57,9 +26,8 @@ build: .build-post
 .build-pre:
 # Add your pre 'build' code here...
 
-.build-post: .build-impl
+.build-post: .build-conf
 # Add your post 'build' code here...
-
 
 # clean
 clean: .clean-post
@@ -101,9 +69,79 @@ help: .help-post
 # Add your post 'help' code here...
 
 
+# Object Directory
+OBJECTDIR=obj
 
-# include project implementation makefile
-include nbproject/Makefile-impl.mk
+# Object Files
+OBJECTFILES= \
+	${OBJECTDIR}/coded_packet.o \
+	${OBJECTDIR}/coding_vector_decoder.o \
+	${OBJECTDIR}/finite_field.o \
+	${OBJECTDIR}/packet_decoder.o \
+	${OBJECTDIR}/uncoded_packet.o \
+	${OBJECTDIR}/vector.o
 
-# include project make variables
-include nbproject/Makefile-variables.mk
+
+# C Compiler Flags
+CFLAGS=-fPIC
+
+# CC Compiler Flags
+CCFLAGS=
+CXXFLAGS=
+
+# Fortran Compiler Flags
+FFLAGS=
+
+# Assembler Flags
+ASFLAGS=
+
+# Link Libraries and Options
+LDLIBSOPTIONS=
+
+# Build Targets
+.build-conf: ${BUILD_SUBPROJECTS}
+	"${MAKE}" build/lib/libncutils.a
+
+build/lib/libncutils.a: ${OBJECTFILES}
+	${MKDIR} -p build/lib
+	${RM} build/lib/libncutils.a
+	${AR} -rv build/lib/libncutils.a ${OBJECTFILES} 
+	$(RANLIB) build/lib/libncutils.a
+
+${OBJECTDIR}/coded_packet.o: coded_packet.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/coded_packet.o coded_packet.c
+
+${OBJECTDIR}/coding_vector_decoder.o: coding_vector_decoder.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/coding_vector_decoder.o coding_vector_decoder.c
+
+${OBJECTDIR}/finite_field.o: finite_field.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/finite_field.o finite_field.c
+
+${OBJECTDIR}/packet_decoder.o: packet_decoder.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/packet_decoder.o packet_decoder.c
+
+${OBJECTDIR}/uncoded_packet.o: uncoded_packet.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/uncoded_packet.o uncoded_packet.c
+
+${OBJECTDIR}/vector.o: vector.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/vector.o vector.c
+
+# Subprojects
+.build-subprojects:
+
+# Clean Targets
+.clean-conf: ${CLEAN_SUBPROJECTS}
+	${RM} -r ${OBJECTDIR}
+	${RM} build/lib/libncutils.a
