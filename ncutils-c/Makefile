@@ -21,53 +21,13 @@ CND_BUILDDIR=build
 # Include project Makefile
 
 # build
-build: .build-post
-
-.build-pre:
-# Add your pre 'build' code here...
-
-.build-post: .build-conf
-# Add your post 'build' code here...
+build: .build-conf
 
 # clean
-clean: .clean-post
-
-.clean-pre:
-# Add your pre 'clean' code here...
-
-.clean-post: .clean-impl
-# Add your post 'clean' code here...
-
-
-# clobber
-clobber: .clobber-post
-
-.clobber-pre:
-# Add your pre 'clobber' code here...
-
-.clobber-post: .clobber-impl
-# Add your post 'clobber' code here...
-
+clean: .clean-conf
 
 # all
-all: .all-post
-
-.all-pre:
-# Add your pre 'all' code here...
-
-.all-post: .all-impl
-# Add your post 'all' code here...
-
-
-# help
-help: .help-post
-
-.help-pre:
-# Add your pre 'help' code here...
-
-.help-post: .help-impl
-# Add your post 'help' code here...
-
+all: build
 
 # Object Directory
 OBJECTDIR=obj
@@ -138,10 +98,7 @@ ${OBJECTDIR}/vector.o: vector.c
 	${RM} "$@.d"
 	$(COMPILE.c) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/vector.o vector.c
 
-# Subprojects
-.build-subprojects:
-
 # Clean Targets
-.clean-conf: ${CLEAN_SUBPROJECTS}
+.clean-conf: 
 	${RM} -r ${OBJECTDIR}
 	${RM} build/lib/libncutils.a
