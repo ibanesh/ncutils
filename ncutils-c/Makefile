@@ -11,11 +11,26 @@ CXX=g++
 FC=gfortran
 AS=as
 
+# Macros
+CND_PLATFORM=GNU-Linux-x86
+CND_DLIB_EXT=so
+CND_CONF=Coverage
+CND_DISTDIR=dist
+CND_BUILDDIR=build
+
+# Include project Makefile
+
 # build
-build: .build-conf
+build: .build-post
+
+.build-pre:
+# Add your pre 'build' code here...
+
+.build-post: .build-conf
+# Add your post 'build' code here...
 
 # clean
-clean: .clean-conf
+clean: .clean-post
 
 # all
 all: build
