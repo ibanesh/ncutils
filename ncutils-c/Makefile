@@ -11,66 +11,23 @@ CXX=g++
 FC=gfortran
 AS=as
 
-# Macros
-CND_PLATFORM=GNU-Linux-x86
-CND_DLIB_EXT=so
-CND_CONF=Coverage
-CND_DISTDIR=dist
-CND_BUILDDIR=build
-
-# Include project Makefile
-
 # build
-build: .build-post
-
-.build-pre:
-# Add your pre 'build' code here...
-
-.build-post: .build-conf
-# Add your post 'build' code here...
+build: .build-conf
 
 # clean
-clean: .clean-post
-
-.clean-pre:
-# Add your pre 'clean' code here...
-
-.clean-post: .clean-impl
-# Add your post 'clean' code here...
-
-
-# clobber
-clobber: .clobber-post
-
-.clobber-pre:
-# Add your pre 'clobber' code here...
-
-.clobber-post: .clobber-impl
-# Add your post 'clobber' code here...
-
+clean: .clean-conf
 
 # all
-all: .all-post
-
-.all-pre:
-# Add your pre 'all' code here...
-
-.all-post: .all-impl
-# Add your post 'all' code here...
-
-
-# help
-help: .help-post
-
-.help-pre:
-# Add your pre 'help' code here...
-
-.help-post: .help-impl
-# Add your post 'help' code here...
-
+all: build
 
 # Object Directory
 OBJECTDIR=obj
+
+# Lib Directory
+LIBDIR=../../../csrc/lib
+
+# Inclide Directory
+INCLUDEDIR=../../../csrc/include
 
 # Object Files
 OBJECTFILES= \
@@ -96,17 +53,16 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-lm
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}" build/lib/libncutils.a
+.build-conf: .move-includes
+	"${MAKE}" libncutils.a
 
-build/lib/libncutils.a: ${OBJECTFILES}
-	${MKDIR} -p build/lib
-	${RM} build/lib/libncutils.a
-	${AR} -rv build/lib/libncutils.a ${OBJECTFILES} 
-	$(RANLIB) build/lib/libncutils.a
+libncutils.a: ${OBJECTFILES}
+	${RM} ${LIBDIR}/libncutils.a
+	${AR} -rv ${LIBDIR}/libncutils.a ${OBJECTFILES} 
+	$(RANLIB) ${LIBDIR}/libncutils.a
 
 ${OBJECTDIR}/coded_packet.o: coded_packet.c 
 	${MKDIR} -p ${OBJECTDIR}
@@ -138,10 +94,14 @@ ${OBJECTDIR}/vector.o: vector.c
 	${RM} "$@.d"
 	$(COMPILE.c) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/vector.o vector.c
 
-# Subprojects
-.build-subprojects:
+#Move Includes
+.move-includes:
+	${MKDIR} -p ${INCLUDEDIR}/ncutils
+	${CP} ncutils.h ${INCLUDEDIR}/ncutils/ncutils.h
+	${CP} ncutils_priv.h ${INCLUDEDIR}/ncutils/ncutils_priv.h
 
 # Clean Targets
-.clean-conf: ${CLEAN_SUBPROJECTS}
+.clean-conf: 
 	${RM} -r ${OBJECTDIR}
-	${RM} build/lib/libncutils.a
+	${RM} ${LIBDIR}/libncutils.a
+	
