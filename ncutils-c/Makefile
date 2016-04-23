@@ -18,23 +18,6 @@ CND_CONF=Coverage
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
-# Include project Makefile
-
-# build
-build: .build-post
-
-.build-pre:
-# Add your pre 'build' code here...
-
-.build-post: .build-conf
-# Add your post 'build' code here...
-
-# clean
-clean: .clean-post
-
-# all
-all: build
-
 # Object Directory
 OBJECTDIR=obj
 
@@ -70,9 +53,18 @@ ASFLAGS=
 # Link Libraries and Options
 LDLIBSOPTIONS=-lm
 
-# Build Targets
-.build-conf: .move-includes
+# build
+build: .move-includes
 	"${MAKE}" libncutils.a
+
+# clean
+clean: 
+	${RM} -r ${OBJECTDIR}
+	${RM} ${LIBDIR}/libncutils.a
+	${RM} -rf ${INCLUDEDIR}/ncutils
+
+# all
+all: build
 
 libncutils.a: ${OBJECTFILES}
 	${RM} ${LIBDIR}/libncutils.a
@@ -114,9 +106,3 @@ ${OBJECTDIR}/vector.o: vector.c
 	${MKDIR} -p ${INCLUDEDIR}/ncutils
 	${CP} ncutils.h ${INCLUDEDIR}/ncutils/ncutils.h
 	${CP} ncutils_priv.h ${INCLUDEDIR}/ncutils/ncutils_priv.h
-
-# Clean Targets
-.clean-conf: 
-	${RM} -r ${OBJECTDIR}
-	${RM} ${LIBDIR}/libncutils.a
-	
