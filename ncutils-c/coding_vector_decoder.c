@@ -51,6 +51,8 @@ coding_vector_decoder_t* create_coding_vector_decoder(int max_packets, finite_fi
     memset(decoder->decoded, 0, sizeof(char) * max_packets);
 
     decoder->maxPackets = max_packets;
+    
+    decoder->packetCount = 0;
 
     return decoder;
 
