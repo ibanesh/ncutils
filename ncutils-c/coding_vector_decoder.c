@@ -115,6 +115,10 @@ decoded_coordinates_t* coding_vector_decoder_add_vector(coding_vector_decoder_t 
     
     size = this->maxPackets;
     totalSize = this->maxPackets * 2;
+    
+    if (packetCount >= size) {
+        return 0; //packet is obviously not linearly independent
+    }
    
     /* add the received packet at the bottom of the matrix */
     for (  i = 0 ; i < v->length ; i++) {
