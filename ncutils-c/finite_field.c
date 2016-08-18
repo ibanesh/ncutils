@@ -113,13 +113,17 @@ void destroy_finite_field(finite_field_t *this) {
 void ff_bytes_to_vector(finite_field_t *this, char* src, int len, vector_t* dest) {
     int i;
 
-    assert(dest->length == ff_coordinates_to_bytes(this, len));
-
+    assert(dest->length >= ff_coordinates_to_bytes(this, len));
+    
     switch (this->q) {
         case 256:
-
-            for (i = 0 ; i < dest->length; i++) {
+            for (i = 0 ; i < len; i++) {
                 dest->coordinates[i] =  0xFF & ((int) src[i]);
+            }
+            if (dest->length > len) {
+                for (i = len ; i < dest->length; i++) {
+                    dest->coordinates[i] =  0xFF & 0;
+                }
             }
 
             break;
