@@ -38,6 +38,7 @@ packet_decoder_t *create_packet_decoder(finite_field_t *ff, int max_packets, int
     this->packets = (coded_packet_t **) malloc(sizeof(coded_packet_t *) * max_packets);
     this->packet_count = 0;
     this->payloadCoordinatesCount = ff_bytes_to_coordinates(ff, payload_length_bytes);
+    this->maxPackets = max_packets;
 
     return this;
 
